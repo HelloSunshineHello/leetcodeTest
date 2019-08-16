@@ -5,24 +5,28 @@ package com.shu.sortMethods;
  */
 public class MegerSort01 {
 	public static void main(String[] args) {
-		int[] a = { 1, 34, 5, 7, 4, 2, 3, 9, 12, 55, 13, 12, 45, 32, 23, 18, 67 };
+		int[] a = { 1, 34, 5, 7, 4, 2, 3, 9, 12 };
 
 		mergeSort(a);
-		for (int temp1 : a) {
-			System.out.print(temp1 + ",");
+		for (int temp : a) {
+			System.out.print(temp + ",");
 		}
 	}
 
 	// 归并排序(二归并实现） 迭代实现
 	public static void mergeSort(int[] a) {
 		int len = a.length;
-		int[] b = new int[a.length];// 用于存放归并结果
+		System.out.println(len);
+		int[] b = new int[len];// 用于存放归并结果
 		int k = 1;// 起始，子序列长度为1
 		while (k < len) {
-			mergePass(a, b, k, len);// 将原先无序的数据两两归并入TR
+			System.out.println("k1:" + k);
+			mergePass(a, b, k, len - 1);// 将原先无序的数据两两归并入TR
 			k *= 2;// 子序列长度加倍
-			mergePass(b, a, k, len);// 将TR中已经两两归并的有序序列再归并回数组a
+			System.out.println("k2:" + k);
+			mergePass(b, a, k, len - 1);// 将TR中已经两两归并的有序序列再归并回数组a
 			k *= 2;// 子序列长度加倍
+			System.out.println("k3:" + k);
 		}
 	}
 
@@ -32,48 +36,45 @@ public class MegerSort01 {
 		int i = 0;
 		while (i < n - 2 * s + 1) {
 			merge(a, b, i, i + s - 1, i + 2 * s - 1);
-			i += 2 * s;
+			i = i + 2 * s;
 		}
-		if (i < n - s + 1) {// 归并最后两个数列
-			merge(a, b, i, i + s - 1, n - 1);
-		} else {// 只剩单个子序列
-			for (int j = i; j < n; j++) {
+		if (i < n - s + 1) // 归并最后两个数列
+			merge(a, b, i, i + s - 1, n);
+		else {// 只剩单个子序列
+			for (int j = i; j <= n; j++)
 				b[j] = a[j];
-			}
-
 		}
+
+		int count = 0;
+		for (int temp1 : a) {
+			System.out.print(temp1 + ",");
+		}
+		System.out.println();
+		System.out.println("count:" + count++);
 	}
 
 	public static void merge(int[] a, int[] b, int left, int mid, int right) {
-		// 也可以转为一个for循环来写，更加简洁明了
-		int i = left;
+		int i = left; // 也可以转为一个for循环来写，更加简洁明了
 		int j = mid + 1;
 		int k = 0;
 
-		// 先将小的排在前面
-		while (i <= mid && j <= right) {
+		while (i <= mid && j <= right) { // 先将小的排在前面
 			if (a[i] < a[j])
 				b[k++] = a[i++];
 			else
 				b[k++] = a[j++];
 		}
 
-		// 将s[left,mid-1]剩余部分复制到temp[]
-		while (i <= mid) {
+		while (i <= mid) // 将s[left,mid-1]剩余部分复制到temp[]
 			b[k++] = a[i++];
-		}
+
 		/**
 		 * 
 		 * 这部分是不是可以优化掉，不用要呢？ 思考：如果左边的部分先排完，右边的部分可以不复制到临时数组中，直接将临时数组复制到原数组中。
 		 * 将s[mid,right]剩余部分复制到temp[] 这样理解，这部分可以优化掉。但是去掉之后，输出全部为0；具体什么原因 ，后面再过来分析
 		 */
-		while (j <= right) {
+		while (j <= right)
 			b[k++] = a[j++];
-		}
 
-		for (int temp1 : b) {
-			System.out.print(temp1 + ",");
-		}
-		System.out.println();
 	}
 }

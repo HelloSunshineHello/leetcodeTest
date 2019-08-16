@@ -5,17 +5,16 @@ package com.shu.sortMethods;
  */
 public class MergeSort {
 	public static void main(String[] args) {
-		int[] a = { 1, 34, 5, 7, 4, 2, 3, 9, 12, 55, 13, 12, 45, 32, 23, 18, 67 };
+		int[] a = { 1, 34, 5, 7, 4, 2, 3, 9, 12, 55, 13, 12, 45, 90, 35, 88, 29, 32, 23, 18, 67 };
 
 		mergeSort(a, 0, a.length - 1);
-		// for (int temp1 : a) {
-		// System.out.print(temp1 + ",");
-		// }
-		// System.out.println();
+		for (int temp1 : a) {
+			System.out.print(temp1 + ",");
+		}
 	}
 
 	// 归并排序(二归并实现） 递归实现
-	// 将a[s,t]归并排序为b[s,t]
+	// 将a[i,j]归并排序为b[i,j]
 	public static void mergeSort(int[] a, int i, int j) {
 		if (i < j) {
 			int mid = (i + j) / 2;// 放在if条件里外结果没有区别，最好放在里面
@@ -32,37 +31,30 @@ public class MergeSort {
 		int i = left;
 		int j = mid + 1;
 		int k = 0;
-
-		// 先将小的排在前面
-		while (i <= mid && j <= right) {
-			if (a[i] < a[j]) {
+		while (i <= mid && j <= right) { // 先将小的排在前面
+			if (a[i] < a[j])
 				temp[k++] = a[i++];
-			} else {
+			else
 				temp[k++] = a[j++];
-			}
 		}
-
-		// 将s[left,mid-1]剩余部分复制到temp[]
-		while (i <= mid) {
+		while (i <= mid) // 将s[left,mid-1]剩余部分复制到temp[]
 			temp[k++] = a[i++];
-		}
+
 		// ******************************************//
 		// 这部分是不是可以优化掉，不用要呢？
 		// 思考：如何左边的部分先排完，右边的部分可以不复制到临时数组中，直接将临时数组复制到原数组中。
 		// 将s[mid,right]剩余部分复制到temp[]
 		// 这样理解，这部分可以优化掉。但是去掉之后，输出全部为0；具体什么原因 ，后面再过来分析
-		while (j <= right) {
+		while (j <= right)
 			temp[k++] = a[j++];
-		}
 
-		// 将排好序的数组再复制到原数组中
-		for (int l = 0; l < temp.length; l++) {
+		for (int l = 0; l < temp.length; l++) // 将排好序的数组再复制到原数组中
 			a[left + l] = temp[l];
-		}
-		for (int temp1 : a) {
-			System.out.print(temp1 + ",");
-		}
-		System.out.println();
+
+		// for (int temp1 : a) {
+		// System.out.print(temp1 + ",");
+		// }
+		// System.out.println();
 	}
 
 }
