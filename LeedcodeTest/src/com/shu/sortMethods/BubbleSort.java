@@ -1,0 +1,72 @@
+package com.shu.sortMethods;
+
+/**
+ * 1、选择排序（直接选择排序，堆排序） 2、交换排序（冒泡排序，快速排序） 3、插入排序（直接插入排序，希尔排序） 4、归并排序 5、桶式排序 6、基数排序
+ */
+public class BubbleSort {
+	public static void main(String[] args) {
+		int[] a = { 1, 34, 5, 7, 4, 2, 3, 9, 12, 55, 13, 12, 45, 32, 23, 18, 67 };
+		bubbleSort(a);
+		// System.out.println();
+		// bubbleSort01(a);
+		// System.out.println();
+		// bubbleSort02(a);
+		// System.out.println();
+	}
+
+	// 冒泡排序初始版
+	public static void bubbleSort(int[] a) {
+		int len = a.length;
+		for (int i = 0; i < len; i++) {
+			for (int j = i + 1; j < len; j++) {
+				if (a[i] > a[j]) {
+					int temp = a[i];
+					a[i] = a[j];
+					a[j] = temp;
+				}
+			}
+		}
+		// 打印输出
+		for (int temp : a) {
+			System.out.print(temp + ",");
+		}
+	}
+
+	// 冒泡排序优化版
+	public static void bubbleSort01(int[] a) {
+		int len = a.length;
+		for (int i = 0; i < len; i++) {
+			for (int j = len - 1; j > i; j--) {
+				if (a[j] < a[j - 1]) {
+					int temp = a[j];
+					a[j] = a[j - 1];
+					a[j - 1] = temp;
+				}
+			}
+		}
+		// 打印输出
+		for (int temp : a) {
+			System.out.print(temp + ",");
+		}
+	}
+
+	// 冒泡排序最终版
+	public static void bubbleSort02(int[] a) {
+		int len = a.length;
+		Boolean flag = true;
+		for (int i = 0; i < len && flag; i++) {
+			flag = false;
+			for (int j = len - 1; j > i; j--) {
+				if (a[j] < a[j - 1]) {
+					int temp = a[j];
+					a[j] = a[j - 1];
+					a[j - 1] = temp;
+					flag = true;
+				}
+			}
+		}
+		for (int temp : a) {
+			System.out.print(temp + ",");
+		}
+	}
+}

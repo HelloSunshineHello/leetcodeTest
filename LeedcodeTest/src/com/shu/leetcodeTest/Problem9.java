@@ -38,9 +38,9 @@ public class Problem9 {
 		while (x / div >= 10)
 			div *= 10;
 		while (x > 0) {
-			int right = x % 10;
-			int left = x / div;
-			if (right != left)
+			int j = x % 10;
+			int i = x / div;
+			if (j != i)
 				return false;
 			x = x % div / 10;
 			div /= 100;
