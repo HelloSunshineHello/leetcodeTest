@@ -25,7 +25,7 @@ public class MyQueue {
 	}
 
 	// 进入队列
-	public void prush(int value) {
+	public void push(int value) {
 		if (end == arr.length - 1) {
 			end = -1;
 		}
@@ -35,7 +35,6 @@ public class MyQueue {
 
 	// 出来队列
 	public int pop() {
-
 		int value = arr[front++];
 		if (front == arr.length) {
 			front = 0;
@@ -51,7 +50,6 @@ public class MyQueue {
 
 	// 判断是否为空
 	public boolean isEmpty() {
-
 		return Element == 0;
 	}
 

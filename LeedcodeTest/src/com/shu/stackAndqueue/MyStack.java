@@ -19,7 +19,7 @@ public class MyStack {
 	}
 
 	// 压栈
-	public void prush(int value) {
+	public void push(int value) {
 		arr[++top] = value;
 
 	}

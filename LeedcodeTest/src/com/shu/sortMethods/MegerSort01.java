@@ -1,12 +1,16 @@
 package com.shu.sortMethods;
 
 /**
- * 1、选择排序（直接选择排序，堆排序） 2、交换排序（冒泡排序，快速排序） 3、插入排序（直接插入排序，希尔排序） 4、归并排序 5、桶式排序 6、基数排序
+ * 4、归并排序 非递归而是迭代的归并排序很直观，就是从前往后从最小的序列开始归并，直到完成即可。 但是这里边界条件不太好想，要注意不要出错。
  */
 public class MegerSort01 {
 	public static void main(String[] args) {
-		int[] a = { 1, 34, 5, 7, 4, 2, 3, 9, 12 };
-
+		int[] a = { 1, 34, 5, 7, 4, 2, 3, 9, 12, 23, 34, 56, 3, 5, 8, 9, 23, 45, 43, 78 };
+		mergeSort2(a);
+		for (int temp : a) {
+			System.out.print(temp + ",");
+		}
+		System.out.println();
 		mergeSort(a);
 		for (int temp : a) {
 			System.out.print(temp + ",");
@@ -14,19 +18,72 @@ public class MegerSort01 {
 	}
 
 	// 归并排序(二归并实现） 迭代实现
+
+	public static void mergeSort2(int[] arr) {
+		// 使用非递归的方式来实现归并排序
+		int len = arr.length;
+		int k = 1;
+
+		while (k < len) {
+			MergePass(arr, k, len);
+			k *= 2;
+		}
+	}
+
+	private static void MergePass(int[] arr, int k, int n) {
+		int i = 0;
+		int j;
+
+		// 从前往后,将2个长度为k的子序列合并为1个
+		while (i < n - 2 * k + 1) {
+			merge(arr, i, i + k - 1, i + 2 * k - 1);
+			i += 2 * k;
+		}
+
+		// 这段代码保证了，将那些“落单的”长度不足两两merge的部分和前面merge起来。
+		if (i < n - k) {
+			merge(arr, i, i + k - 1, n - 1);
+		}
+
+	}
+
+	public static void merge(int[] a, int left, int mid, int right) {
+		int[] temp = new int[right - left + 1];
+		int i = left;
+		int j = mid + 1;
+		int k = 0;
+		while (i <= mid && j <= right) { // 先将小的排在前面
+			if (a[i] < a[j])
+				temp[k++] = a[i++];
+			else
+				temp[k++] = a[j++];
+		}
+		while (i <= mid) // 将s[left,mid-1]剩余部分复制到temp[]
+			temp[k++] = a[i++];
+
+		while (j <= right)
+			temp[k++] = a[j++];
+
+		for (int l = 0; l < temp.length; l++) // 将排好序的数组再复制到原数组中
+			a[left + l] = temp[l];
+	}
+
+	/*************************************************************************************/
+	// 方法二
+
 	public static void mergeSort(int[] a) {
 		int len = a.length;
-		System.out.println(len);
+		// System.out.println(len);
 		int[] b = new int[len];// 用于存放归并结果
 		int k = 1;// 起始，子序列长度为1
 		while (k < len) {
-			System.out.println("k1:" + k);
-			mergePass(a, b, k, len - 1);// 将原先无序的数据两两归并入TR
+			// System.out.println("k1:" + k);
+			mergePass(a, b, k, len);// 将原先无序的数据两两归并入TR
 			k *= 2;// 子序列长度加倍
-			System.out.println("k2:" + k);
-			mergePass(b, a, k, len - 1);// 将TR中已经两两归并的有序序列再归并回数组a
-			k *= 2;// 子序列长度加倍
-			System.out.println("k3:" + k);
+			// System.out.println("k2:" + k);
+			// mergePass(b, a, k, len);// 将TR中已经两两归并的有序序列再归并回数组a
+			// k *= 2;// 子序列长度加倍
+			// System.out.println("k3:" + k);
 		}
 	}
 
@@ -38,19 +95,19 @@ public class MegerSort01 {
 			merge(a, b, i, i + s - 1, i + 2 * s - 1);
 			i = i + 2 * s;
 		}
-		if (i < n - s + 1) // 归并最后两个数列
-			merge(a, b, i, i + s - 1, n);
-		else {// 只剩单个子序列
-			for (int j = i; j <= n; j++)
-				b[j] = a[j];
-		}
+		if (i < n - s) // 归并最后两个数列
+			merge(a, b, i, i + s - 1, n - 1);
+		// else {// 只剩单个子序列
+		// for (int j = i; j < n; j++)
+		// b[j] = a[j];
+		// }
 
-		int count = 0;
-		for (int temp1 : a) {
-			System.out.print(temp1 + ",");
-		}
-		System.out.println();
-		System.out.println("count:" + count++);
+		// int count = 0;
+		// for (int temp1 : a) {
+		// System.out.print(temp1 + ",");
+		// }
+		// System.out.println();
+		// System.out.println("count:" + count++);
 	}
 
 	public static void merge(int[] a, int[] b, int left, int mid, int right) {
@@ -68,13 +125,8 @@ public class MegerSort01 {
 		while (i <= mid) // 将s[left,mid-1]剩余部分复制到temp[]
 			b[k++] = a[i++];
 
-		/**
-		 * 
-		 * 这部分是不是可以优化掉，不用要呢？ 思考：如果左边的部分先排完，右边的部分可以不复制到临时数组中，直接将临时数组复制到原数组中。
-		 * 将s[mid,right]剩余部分复制到temp[] 这样理解，这部分可以优化掉。但是去掉之后，输出全部为0；具体什么原因 ，后面再过来分析
-		 */
 		while (j <= right)
 			b[k++] = a[j++];
-
 	}
+
 }
