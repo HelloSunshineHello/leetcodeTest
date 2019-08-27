@@ -29,8 +29,8 @@ import java.util.Set;
  */
 public class Problem3 {
 	public static void main(String[] args) {
-		lengthOfLongestSubstring01("abccba");
-		lengthOfLongestSubstring02("abccba");
+		// lengthOfLongestSubstring01("abccba");
+		// lengthOfLongestSubstring02("abccba");
 		lengthOfLongestSubstring03("abccba");
 
 	}
@@ -42,11 +42,11 @@ public class Problem3 {
 		Map<Character, Integer> map = new HashMap<>();
 		for (int j = 0, i = 0; j < len; j++) {
 			if (map.containsKey(s.charAt(j))) {
-				// System.out.println("origin i："+i);
+				System.out.println("origin i：" + i);
+				System.out.println("ahihi:" + map.get(s.charAt(j)));
 				i = Math.max(map.get(s.charAt(j)), i);
-				// System.out.println("fisrt i："+i);
+				System.out.println("fisrt i：" + i);
 			}
-			// System.out.println(s.charAt(j));
 			map.put(s.charAt(j), j + 1);
 			// System.out.println(map);
 			ans = Math.max(ans, j - i + 1);
